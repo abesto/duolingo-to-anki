@@ -4,14 +4,19 @@ import org.json4s._
 import org.json4s.native.Serialization
 import org.json4s.native.JsonMethods._
 
+
+case class WordList(language: String, words: Seq[Word]) {}
+
+
 case class DuolingoWordlistScraper(authToken: String) extends Constants {
   val wordsDomain = "www.duolingo.com"
 
+  def fetchPage(page: Int) = Http(url("https://" + wordsDomain + "/words?page=" + page.toString).addCookie(new Cookie(
+    wordsDomain, DUOLINGO_AUTH_HEADER, authToken, null, -1, true
+  )) OK as.String).apply()
+
   def scrapeWordsPage(page: Int) = {
-    val req = Http(url("https://" + wordsDomain + "/words?page=" + page.toString).addCookie(new Cookie(
-      wordsDomain, DUOLINGO_AUTH_HEADER, authToken, null, -1, true
-    )) OK as.String)
-    parseToWords(req())
+    parseToWords(fetchPage(page))
   }
 
   def parseToWords(s: String) : Seq[Word] =  {
@@ -30,18 +35,23 @@ case class DuolingoWordlistScraper(authToken: String) extends Constants {
     )
   }
 
-  def fetchAllWords(lang: String) = {
+  def fetchAllWords(lang: String): WordList = {
     var page = 1
     var words: Seq[Word] = Seq()
     var wordsThisPage: Seq[Word] = null
     do {
       wordsThisPage = null
-      Console.println("# Scraping page " + page)
+      Log.log("Scraping page " + page)
       wordsThisPage = scrapeWordsPage(page)
-      Console.println("# " + wordsThisPage.map{_.foreign}.mkString(","))
+      Log.log(wordsThisPage.map{_.foreign}.mkString(","))
       words ++= wordsThisPage
       page += 1
     } while (wordsThisPage.length > 0)
-    words.distinct.filter{_.language == lang}
+    implicit val formats = Serialization.formats(NoTypeHints)
+    val lang = (parse(fetchPage(1)) \ "language").extract[String]
+    new WordList(
+      lang,
+      words.distinct.filter{_.language == lang}
+    )
   }
 }

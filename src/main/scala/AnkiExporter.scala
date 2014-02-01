@@ -1,9 +1,19 @@
-class AnkiExporter {
+import java.io.{PrintWriter, File}
+
+class AnkiExporter(f: File) {
   def write(words: Seq[Word]) {
-    for (word <- words) {
-      Console.println(
-        "\"" + word.foreign + "\";\"" + word.translations.mkString("\n") + "\";\"" + word.skill + "\"\n"
-      )
+    val pw = new PrintWriter(f)
+    try {
+      pw.write("#### Start of scraping log\n")
+      for (logline <- Log.lines) pw.write("# " + logline + "\n")
+      pw.write("#### End of scraping log, data coming up\n")
+      for (word <- words) {
+        pw.write(
+          "\"" + word.foreign + "\";\"" + word.translations.mkString("\n") + "\";\"" + word.skill + "\"\n\n"
+        )
+      }
+    } finally {
+      pw.close()
     }
   }
 }

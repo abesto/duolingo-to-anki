@@ -10,14 +10,20 @@ object DuolingoLogin extends Constants {
   def login(username: String, password: String): Either[String, String] =
     Http(loginUrl.addParameter("login", username).addParameter("password", password)).either.apply() match {
       case Right(res: Response) => parse(res.getResponseBody) match {
-        case JObject(List(JField("message", JString(message)))) => Left(message)
+        case JObject(List(JField("message", JString(message)))) =>
+          Log.log("Login failed. Duolingo says: " + message)
+          Left(message)
         case JObject(List(
         JField("response", JString("OK")),
         JField("username", JString(username2)),
         JField("protocol", JString(protocol))
-        )) => Right(res.getCookies.asScala.filter({c:Cookie => c.getName == DUOLINGO_AUTH_HEADER}).head.getValue.toString)
+        )) =>
+          Log.log("Logged in to Duolingo as " + username)
+          Right(res.getCookies.asScala.filter({c:Cookie => c.getName == DUOLINGO_AUTH_HEADER}).head.getValue.toString)
       }
-      case Left(ex: Throwable) => Left(ex.getMessage)
+      case Left(ex: Throwable) =>
+        Log.log("Login error: " + ex.getMessage)
+        Left(ex.getMessage)
     }
 }
 
