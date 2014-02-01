@@ -13,7 +13,7 @@ object Log {
   def register(handler: Handler) = handlers += handler
 
   var lines: Seq[String] = Seq()
-  val dateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.S]")
+  val dateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]")
   def log(line: String) = {
     val timestampedLine = dateFormat.format(new Date) + " " + line
     lines ++= Seq(timestampedLine)

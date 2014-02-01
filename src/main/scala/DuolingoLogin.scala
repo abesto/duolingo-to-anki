@@ -7,7 +7,8 @@ import scala.collection.JavaConverters._
 object DuolingoLogin extends Constants {
   val loginUrl = url("https://www.duolingo.com/login").POST
 
-  def login(username: String, password: String): Either[String, String] =
+  def login(username: String, password: String): Either[String, String] = {
+    Log.log("Trying to log in to Duolingo as " + username)
     Http(loginUrl.addParameter("login", username).addParameter("password", password)).either.apply() match {
       case Right(res: Response) => parse(res.getResponseBody) match {
         case JObject(List(JField("message", JString(message)))) =>
@@ -25,5 +26,6 @@ object DuolingoLogin extends Constants {
         Log.log("Login error: " + ex.getMessage)
         Left(ex.getMessage)
     }
+  }
 }
 
