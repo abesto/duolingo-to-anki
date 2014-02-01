@@ -1,5 +1,5 @@
 import java.awt.Font
-import javax.swing.{SwingUtilities, JFileChooser}
+import javax.swing.JFileChooser
 import scala.swing._
 import scala.swing.Font
 import scala.swing.GridBagPanel._
