@@ -25,9 +25,7 @@ Have fun!
 
 In case you want to hack on `duolingo-to-anki`. Pull requests are welcome.
 
-Prerequisites:
-
- * [SBT](http://www.scala-sbt.org/)
+The only prerequisite is [SBT](http://www.scala-sbt.org/).
 
 ```sh
 git clone https://github.com/abesto/duolingo-to-anki.git
