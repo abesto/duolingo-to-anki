@@ -20,3 +20,23 @@ Download [the latest version](http://releases.abesto.net/duolingo-to-anki/Duolin
    * The third field is the "skill" in which the word appears on Duolingo
    
 Have fun!
+
+## Building from source
+
+In case you want to hack on `duolingo-to-anki`. Pull requests are welcome.
+
+Prerequisites:
+
+ * [SBT](http://www.scala-sbt.org/)
+
+```sh
+git clone https://github.com/abesto/duolingo-to-anki.git
+cd duolingo-to-anki
+sbt run
+```
+
+To build a distributable fat jar:
+
+```sh
+sbt one-jar
+```
