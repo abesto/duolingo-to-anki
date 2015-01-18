@@ -9,7 +9,9 @@ object DuolingoLogin extends Constants {
 
   def login(username: String, password: String): Either[String, String] = {
     Log.log("Trying to log in to Duolingo as " + username)
-    Http(loginUrl.addParameter("login", username).addParameter("password", password)).either.apply() match {
+    Http(loginUrl.addParameter("login", username)
+                 .addParameter("password", password)
+                 .addHeader("X-Requested-With", "XMLHttpRequest")).either.apply() match {
       case Right(res: Response) => parse(res.getResponseBody) match {
         case JObject(List(
                JField("failure", JString(failure)),
@@ -19,9 +21,9 @@ object DuolingoLogin extends Constants {
         case JObject(List(
         JField("response", JString("OK")),
         JField("username", JString(username2)),
-        JField("protocol", JString(protocol))
+        JField("user_id", JString(userId))
         )) =>
-          Log.log("Logged in to Duolingo as " + username)
+          Log.log(s"Logged in to Duolingo as $username id=$userId")
           Right(res.getCookies.asScala.filter({c:Cookie => c.getName == DUOLINGO_AUTH_HEADER}).head.getValue)
         case other =>
           Log.log("Unexpected response for login: " + other.toString)
