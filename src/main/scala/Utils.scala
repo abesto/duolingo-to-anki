@@ -3,7 +3,7 @@ import scala.language.implicitConversions
 
 object Utils {
   val name = "Duolingo-to-Anki"
-  val version = "0.2.1"
+  val version = "0.2.2"
   val homepage = "https://github.com/abesto/duolingo-to-anki"
 
   val userAgent = s"$name $version ($homepage)"
