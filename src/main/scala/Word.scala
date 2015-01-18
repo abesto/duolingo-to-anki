@@ -1,3 +1,2 @@
-case class Word(language: String, foreign: String, var translations: Seq[String], skill: String) {
+case class Word(learned: Seq[String], native: Seq[String], tags: Seq[String])
 
-}
