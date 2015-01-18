@@ -4,7 +4,7 @@ name := "Duolingo-To-Anki"
 
 version := "0.2.1"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.4"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
