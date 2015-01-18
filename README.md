@@ -13,7 +13,7 @@ You can download the latest version from the [Releases](https://github.com/abest
 You'll be asked for your username and password each time; they are not saved and are transmitted over HTTPS securely. This can probably be improved, see [Issue #6](https://github.com/abesto/duolingo-to-anki/issues/6).
 
 ## Usage
- * On Duolingo, select the language you want to use as the foreign language. (Limitation: currently English is always the "native" language in `duolingo-to-anki`.)
+ * On Duolingo, select the language you want to use as the foreign language.
  * Enter your Duolingo username and password
  * Click Go!
  * Watch as your words are downloaded
