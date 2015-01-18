@@ -3,9 +3,14 @@ duolingo-to-anki
 
 Download word list from [Duolingo](http://duolingo.com), save into [Anki](http://ankisrs.net/)-compatible format. Duolingo is an online language learning tool; Anki is a flash-card application useful for practicing your vocabulary.
 
+If you only want to do flashcard reviews of the words you learn on Duolingo, you'll probably have an easier time just using the flashcard system built right into Duolingo. To reach it, click on "Words" in the top menu, then "Review flashcards" on the right.
+
+## Releases
+
 You can download the latest version from the [Releases](https://github.com/abesto/duolingo-to-anki/releases/) page right here on GitHub.
 
-**Note**: You'll be asked for your username and password each time; they are not saved and are transmitted over HTTPS securely.
+## Security
+You'll be asked for your username and password each time; they are not saved and are transmitted over HTTPS securely. This can probably be improved, see [Issue #6](https://github.com/abesto/duolingo-to-anki/issues/6).
 
 ## Usage
  * On Duolingo, select the language you want to use as the foreign language. (Limitation: currently English is always the "native" language in `duolingo-to-anki`.)
