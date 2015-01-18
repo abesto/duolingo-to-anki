@@ -21,7 +21,7 @@ You'll be asked for your username and password each time; they are not saved and
  * Import the text file you've saved as described in [the Anki manual](http://ankisrs.net/docs/manual.html#importing). 
    * The first field is the word in the foreign language
    * The second field is the list of translations in the native language (always English for now)
-   * The third field contains the  "skill" in which the word appears on Duolingo, and the role of the word (noun, verb, etc.) as tags
+   * The third field contains the  "skill" in which the word appears on Duolingo, and the part of speech (noun, verb, etc.) as tags
    
 Have fun!
 
