@@ -11,16 +11,21 @@ object DuolingoLogin extends Constants {
     Log.log("Trying to log in to Duolingo as " + username)
     Http(loginUrl.addParameter("login", username).addParameter("password", password)).either.apply() match {
       case Right(res: Response) => parse(res.getResponseBody) match {
-        case JObject(List(JField("message", JString(message)))) =>
-          Log.log("Login failed. Duolingo says: " + message)
-          Left(message)
+        case JObject(List(
+               JField("failure", JString(failure)),
+               JField("message", JString(message)))
+             ) => Log.log("Login failed. Duolingo says: " + message)
+                  Left(message)
         case JObject(List(
         JField("response", JString("OK")),
         JField("username", JString(username2)),
         JField("protocol", JString(protocol))
         )) =>
           Log.log("Logged in to Duolingo as " + username)
-          Right(res.getCookies.asScala.filter({c:Cookie => c.getName == DUOLINGO_AUTH_HEADER}).head.getValue.toString)
+          Right(res.getCookies.asScala.filter({c:Cookie => c.getName == DUOLINGO_AUTH_HEADER}).head.getValue)
+        case other =>
+          Log.log("Unexpected response for login: " + other.toString)
+          Left("Unexpected response for login. This is a probably a bug in duolingo-to-anki.")
       }
       case Left(ex: Throwable) =>
         Log.log("Login error: " + ex.getMessage)
