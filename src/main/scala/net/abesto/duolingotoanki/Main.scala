@@ -1,5 +1,11 @@
+package net.abesto.duolingotoanki
+
 import java.awt.Font
 import javax.swing.UIManager
+import net.abesto.duolingotoanki.exporters.AnkiExporter
+import net.abesto.duolingotoanki.scrapers.{DuolingoLogin, DuolingoVocabularyScraper, DuolingoFlashcardScraper}
+import net.abesto.duolingotoanki.translators.DuolingoToAnki
+
 import scala.swing._
 import scala.swing.Font
 import scala.swing.GridBagPanel._
@@ -15,7 +21,7 @@ object Main extends SimpleSwingApplication {
   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
 
   def top = new MainFrame {
-    title = Utils.name
+    title = Constants.APP_NAME
     preferredSize = new Dimension(800, 400)
     contents = { new GridBagPanel {
       val c = new Constraints
@@ -46,7 +52,7 @@ object Main extends SimpleSwingApplication {
           authToken <- DuolingoLogin.login(username.text, password.password.mkString).right
           flashcards <- new DuolingoFlashcardScraper(authToken).fetch().right
           vocabulary <- new DuolingoVocabularyScraper(authToken).fetch().right
-          words <- Translators.duolingoToAnki(flashcards, vocabulary).right
+          words <- DuolingoToAnki.translate(flashcards, vocabulary).right
         } yield words
 
       def write(ws: Seq[Word]): Unit = Swing.onEDT {
@@ -120,6 +126,6 @@ object Main extends SimpleSwingApplication {
       layout(goButton) = c
     }}
 
-    Log.log(s"${Utils.userAgent} initialized")
+    Log.log(s"${Constants.USER_AGENT} initialized")
   }
 }

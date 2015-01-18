@@ -1,12 +1,15 @@
-import com.ning.http.client.{Response, Cookie}
-import dispatch._, Defaults._
-import org.json4s._
+package net.abesto.duolingotoanki.scrapers
+
+import com.ning.http.client.{Cookie, Response}
+import dispatch.Defaults._
+import dispatch._
+import net.abesto.duolingotoanki.{Constants, Log}
 import org.json4s.native.JsonMethods._
-import org.json4s.DefaultFormats
+import org.json4s.{DefaultFormats, _}
 
 class DuolingoFlashcardScraper(authToken: String) {
-  import Constants.Duolingo.Flashcards._
-  import Utils._
+  import net.abesto.duolingotoanki.Constants.Duolingo.Flashcards._
+  import net.abesto.duolingotoanki.Utils._
 
   def fetch(limit: Long = 10000): Either[String, Flashcards] =
     doFetch(limit) match {

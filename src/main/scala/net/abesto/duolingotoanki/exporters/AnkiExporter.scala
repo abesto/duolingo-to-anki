@@ -1,4 +1,8 @@
-import java.io.{PrintWriter, File}
+package net.abesto.duolingotoanki.exporters
+
+import java.io.{File, PrintWriter}
+
+import net.abesto.duolingotoanki.{Log, Word}
 
 class AnkiExporter(f: File) {
   def quote(sep: String)(s: Seq[String]) = '"' + s.mkString(sep) + '"'

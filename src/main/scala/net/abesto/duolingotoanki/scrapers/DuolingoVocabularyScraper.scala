@@ -1,12 +1,15 @@
-import com.ning.http.client.{Response, Cookie}
-import dispatch._, Defaults._
-import org.json4s._
+package net.abesto.duolingotoanki.scrapers
+
+import com.ning.http.client.{Cookie, Response}
+import dispatch.Defaults._
+import dispatch._
+import net.abesto.duolingotoanki.{Constants, Log}
 import org.json4s.native.JsonMethods._
-import org.json4s.DefaultFormats
+import org.json4s.{DefaultFormats, _}
 
 class DuolingoVocabularyScraper(authToken: String) {
-  import Constants.Duolingo.Vocabulary.Overview._
-  import Utils._
+  import net.abesto.duolingotoanki.Constants.Duolingo.Vocabulary.Overview._
+  import net.abesto.duolingotoanki.Utils._
 
   def fetch(): Either[String, Vocabulary] =
     doFetch() match {

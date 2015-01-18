@@ -1,12 +1,17 @@
+package net.abesto.duolingotoanki.scrapers
+
 import com.ning.http.client.{Cookie, Response}
-import dispatch._, Defaults._
+import dispatch.Defaults._
+import dispatch._
+import net.abesto.duolingotoanki.{Constants, Log, Utils}
 import org.json4s._
 import org.json4s.native.JsonMethods._
+
 import scala.collection.JavaConverters._
 
 object DuolingoLogin {
-  import Constants.Duolingo._
-  import Utils._
+  import net.abesto.duolingotoanki.Constants.Duolingo._
+  import net.abesto.duolingotoanki.Utils._
 
   val loginUrl = url(Login.Request.URL).POST
 
