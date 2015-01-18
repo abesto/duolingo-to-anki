@@ -3,7 +3,7 @@ duolingo-to-anki
 
 Download word list from [Duolingo](http://duolingo.com), save into [Anki](http://ankisrs.net/)-compatible format. Duolingo is an online language learning tool; Anki is a flash-card application useful for practicing your vocabulary.
 
-Download [the latest version](http://releases.abesto.net/duolingo-to-anki/DuolingoToAnki-0.2.jar)!
+You can download the latest version from the [Releases](https://github.com/abesto/duolingo-to-anki/releases/) page right here on GitHub.
 
 **Note**: You'll be asked for your username and password each time; they are not saved and are transmitted over HTTPS securely.
 
