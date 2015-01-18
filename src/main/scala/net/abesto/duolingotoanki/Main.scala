@@ -1,6 +1,7 @@
 package net.abesto.duolingotoanki
 
 import java.awt.Font
+import java.io.File
 import javax.swing.UIManager
 import net.abesto.duolingotoanki.exporters.AnkiExporter
 import net.abesto.duolingotoanki.scrapers.{DuolingoLogin, DuolingoVocabularyScraper, DuolingoFlashcardScraper}
@@ -55,20 +56,33 @@ object Main extends SimpleSwingApplication {
           words <- DuolingoToAnki.translate(flashcards, vocabulary).right
         } yield words
 
+      def areYouSureYouWantToOverwrite(file: File): Boolean =
+        Dialog.showConfirmation(
+          contents.head,
+          '"' + file.getAbsolutePath + "\" already exists. Do you want to replace it?",
+          "A file or folder with the same name already exists. Replacing it will overwrite its current contents.",
+          Dialog.Options.YesNo,
+          Dialog.Message.Warning
+        ) == Dialog.Result.Yes
+
       def write(ws: Seq[Word]): Unit = Swing.onEDT {
         val fileChooser = new FileChooser()
-        if (fileChooser.showSaveDialog(contents.head) == FileChooser.Result.Approve) {
-          val file = fileChooser.selectedFile
-          val result = new AnkiExporter(file).write(ws)
-          result.right.map(_ => Log.log("Successfully wrote " + file.getAbsolutePath))
-          result.left.map(s => {
-            error(s"Failed to write $file: $s")
-            write(ws)
-          })
+        if (fileChooser.showSaveDialog(contents.head) != FileChooser.Result.Approve) {
+          Log.log("Save dialog cancelled")
         }
-        else {
-          error("Save dialog cancelled")
+        val file = fileChooser.selectedFile
+
+        if (file.exists() && !areYouSureYouWantToOverwrite(file))
+        {
+          return write(ws)
         }
+
+        val result = new AnkiExporter(file).write(ws)
+        result.right.map(_ => Log.log("Successfully wrote " + file.getAbsolutePath))
+        result.left.map(s => {
+          error(s"Failed to write $file: $s")
+          write(ws)
+        })
       }
 
       val goAction = new Action("Go!") {
