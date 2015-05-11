@@ -27,6 +27,10 @@ Tested with
    
 Have fun!
 
+## Reporting issues
+
+If you encounter any problem at all using `duolingo-to-anki`, please feel free to [open an issue](https://github.com/abesto/duolingo-to-anki/issues/new) right here on GitHub. You may first want to check whether your issue is already being worked on by goint to the [Issues](https://github.com/abesto/duolingo-to-anki/issues) page. Feature requests, ideas are also welcome!
+
 ## Security
 You'll be asked for your username and password each time; they are not saved and are transmitted over HTTPS securely. This can probably be improved, see [Issue #6](https://github.com/abesto/duolingo-to-anki/issues/6).
 
