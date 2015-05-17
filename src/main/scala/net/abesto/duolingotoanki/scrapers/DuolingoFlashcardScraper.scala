@@ -52,8 +52,8 @@ case class Flashcards
 )
 
 case class Flashcard
-( ui_words: Seq[String]
-, learning_words: Seq[String]
+( word: String
+, translation: String
 )
 
 
