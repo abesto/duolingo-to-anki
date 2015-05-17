@@ -28,9 +28,8 @@ class DuolingoFlashcardScraper(authToken: String) {
 
   protected def doFetch(limit: Long): Either[String, Flashcards] = {
     val thisUrl = url(URL)
-      .addCookie(new Cookie(Constants.Duolingo.DOMAIN, Constants.Duolingo.Login.AUTH_HEADER, authToken, null, -1, true))
+      .addCookie(new Cookie(Constants.Duolingo.WWW_DOMAIN, Constants.Duolingo.Login.AUTH_HEADER, authToken, null, -1, true))
       .addQueryParameter(Params.COUNT, limit.toString)
-      .addQueryParameter(Params.ALLOW_PARTIAL_DECK, "true")
       .addCommonHeaders()
 
     implicit val format = DefaultFormats

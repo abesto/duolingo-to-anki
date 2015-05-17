@@ -23,7 +23,7 @@ class DuolingoVocabularyScraper(authToken: String) {
 
   def doFetch(): Either[String, Vocabulary] = {
     val thisUrl = url(URL)
-      .addCookie(new Cookie(Constants.Duolingo.DOMAIN, Constants.Duolingo.Login.AUTH_HEADER, authToken, null, -1, true))
+      .addCookie(new Cookie(Constants.Duolingo.WWW_DOMAIN, Constants.Duolingo.Login.AUTH_HEADER, authToken, null, -1, true))
       .addCommonHeaders()
 
     implicit val format = DefaultFormats

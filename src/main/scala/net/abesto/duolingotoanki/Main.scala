@@ -4,7 +4,7 @@ import java.awt.Font
 import java.io.File
 import javax.swing.UIManager
 import net.abesto.duolingotoanki.exporters.AnkiExporter
-import net.abesto.duolingotoanki.scrapers.{DuolingoLogin, DuolingoVocabularyScraper, DuolingoFlashcardScraper}
+import net.abesto.duolingotoanki.scrapers.{DuolingoDictionaryHintsScraper, DuolingoLogin, DuolingoVocabularyScraper, DuolingoFlashcardScraper}
 import net.abesto.duolingotoanki.translators.DuolingoToAnki
 
 import scala.swing._
@@ -51,9 +51,9 @@ object Main extends SimpleSwingApplication {
 
       def words(): Either[String, Seq[Word]] = for {
           authToken <- DuolingoLogin.login(username.text, password.password.mkString).right
-          flashcards <- new DuolingoFlashcardScraper(authToken).fetch().right
           vocabulary <- new DuolingoVocabularyScraper(authToken).fetch().right
-          words <- DuolingoToAnki.translate(flashcards, vocabulary).right
+          translations <- new DuolingoDictionaryHintsScraper().fetch(vocabulary).right
+          words <- DuolingoToAnki.translate(vocabulary, translations).right
         } yield words
 
       def areYouSureYouWantToOverwrite(file: File): Boolean =

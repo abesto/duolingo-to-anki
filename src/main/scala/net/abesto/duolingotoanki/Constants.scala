@@ -2,17 +2,19 @@ package net.abesto.duolingotoanki
 
 object Constants {
   val APP_NAME = "Duolingo-to-Anki"
-  val APP_VERSION = "0.2.3"
+  val APP_VERSION = "0.2.4"
   val APP_HOMEPAGE = "https://github.com/abesto/duolingo-to-anki"
 
   val USER_AGENT = s"$APP_NAME $APP_VERSION ($APP_HOMEPAGE)"
 
   object Duolingo {
-    val DOMAIN = "www.duolingo.com"
-    val BASE_URL = s"https://$DOMAIN"
+    val WWW_DOMAIN = "www.duolingo.com"
+    val D2_DOMAIN = "d2.duolingo.com"
+    val WWW_BASE_URL = s"https://$WWW_DOMAIN"
+    val D2_BASE_URL = s"https://$D2_DOMAIN"
     object Login {
       object Request {
-        val URL = s"$BASE_URL/login"
+        val URL = s"$WWW_BASE_URL/login"
         object Params {
           val USERNAME = "login"
           val PASSWORD = "password"
@@ -34,7 +36,7 @@ object Constants {
     }
 
     object Flashcards {
-      val URL = s"$BASE_URL/api/1/flashcards"
+      val URL = s"$WWW_BASE_URL/api/1/flashcards"
       object Params {
         val COUNT = "n"
         val ALLOW_PARTIAL_DECK = "allow_partial_deck"
@@ -43,7 +45,17 @@ object Constants {
 
     object Vocabulary {
       object Overview {
-        val URL = s"$BASE_URL/vocabulary/overview"
+        val URL = s"$WWW_BASE_URL/vocabulary/overview"
+      }
+    }
+
+    object Dictionary {
+      object Hints {
+        val URL = s"$D2_BASE_URL/api/1/dictionary/hints/%s/%s"
+        val BATCH_SIZE = 50
+        object Params {
+          val TOKENS = "tokens"
+        }
       }
     }
   }

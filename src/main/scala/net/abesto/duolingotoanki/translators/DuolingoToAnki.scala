@@ -4,24 +4,16 @@ import net.abesto.duolingotoanki.scrapers.{Flashcards, Vocabulary}
 import net.abesto.duolingotoanki.{Log, Word}
 
 object DuolingoToAnki {
-  def translate(flashcards: Flashcards, vocabulary: Vocabulary): Either[String, Seq[Word]] = {
-    if (flashcards.learning_language != vocabulary.learning_language) {
-      Left(s"Flashcards learned language ${flashcards.learning_language} doesn't match vocabulary learned language ${vocabulary.learning_language}")
-    } else {
-      Right(
-        flashcards.flashcard_data.map(f => {
-          val vocabItems = vocabulary.vocab_overview.filter(v => f.word == v.word_string)
-          val tags = {
-            if (vocabItems.length == 0) {
-              Log.log(s"No vocabulary item found for flashcard (${f.word}). No tags will be added.")
-              Seq()
-            } else {
-              vocabItems.flatMap(vi => Seq(vi.pos, vi.skill_url_title))
-            }
-          }
-          new Word(Seq(f.word), Seq(f.translation), tags)
-        })
-      )
-    }
+  def translate(vocabulary: Vocabulary, hints: Map[String, Seq[String]]): Either[String, Seq[Word]] = {
+    Right(
+      vocabulary.vocab_overview.flatMap(vi => {
+        hints.get(vi.word_string) match {
+          case None =>
+            Log.log(s"No translations found for ${vi.word_string}")
+            Seq()
+          case Some(translations) => Seq(new Word(Seq(vi.word_string), translations, Seq(vi.skill, vi.pos)))
+        }
+      })
+    )
   }
 }
