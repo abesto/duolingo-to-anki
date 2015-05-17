@@ -10,7 +10,7 @@ import net.abesto.duolingotoanki.translators.DuolingoToAnki
 import scala.swing._
 import scala.swing.Font
 import scala.swing.GridBagPanel._
-import scala.concurrent.future
+import scala.concurrent.{Future, future}
 import scala.concurrent.ExecutionContext.Implicits._
 
 object Main extends SimpleSwingApplication {
@@ -87,7 +87,7 @@ object Main extends SimpleSwingApplication {
 
       val goAction = new Action("Go!") {
         override def apply() {
-          future {
+          Future {
             Log.clear()
             val ws = words()
             ws.left.map(error)

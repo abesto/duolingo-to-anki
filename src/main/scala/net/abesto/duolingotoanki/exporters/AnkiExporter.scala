@@ -23,7 +23,7 @@ class AnkiExporter(f: File) {
               .++("\n\n")
           )
         }
-        Right()
+        Right(Unit)
       } finally {
         pw.close()
       }

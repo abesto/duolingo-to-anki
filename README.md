@@ -38,16 +38,14 @@ You'll be asked for your username and password each time; they are not saved and
 
 In case you want to hack on `duolingo-to-anki`. Pull requests are welcome.
 
-The only prerequisite is [SBT](http://www.scala-sbt.org/).
-
 ```sh
 git clone https://github.com/abesto/duolingo-to-anki.git
 cd duolingo-to-anki
-sbt run
+./gradlew run
 ```
 
 To build a distributable fat jar:
 
 ```sh
-sbt one-jar
+./gradlew shadowJar
 ```
