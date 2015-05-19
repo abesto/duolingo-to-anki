@@ -1,6 +1,6 @@
 package net.abesto.duolingotoanki.translators
 
-import net.abesto.duolingotoanki.scrapers.{Flashcards, Vocabulary}
+import net.abesto.duolingotoanki.scrapers.Vocabulary
 import net.abesto.duolingotoanki.{Log, Word}
 
 object DuolingoToAnki {

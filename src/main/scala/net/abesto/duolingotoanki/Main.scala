@@ -4,7 +4,7 @@ import java.awt.Font
 import java.io.File
 import javax.swing.UIManager
 import net.abesto.duolingotoanki.exporters.AnkiExporter
-import net.abesto.duolingotoanki.scrapers.{DuolingoDictionaryHintsScraper, DuolingoLogin, DuolingoVocabularyScraper, DuolingoFlashcardScraper}
+import net.abesto.duolingotoanki.scrapers.{DuolingoDictionaryHintsScraper, DuolingoLogin, DuolingoVocabularyScraper}
 import net.abesto.duolingotoanki.translators.DuolingoToAnki
 
 import scala.swing._

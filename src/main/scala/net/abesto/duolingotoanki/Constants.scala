@@ -35,14 +35,6 @@ object Constants {
       val AUTH_HEADER = "auth_tkt"
     }
 
-    object Flashcards {
-      val URL = s"$WWW_BASE_URL/api/1/flashcards"
-      object Params {
-        val COUNT = "n"
-        val ALLOW_PARTIAL_DECK = "allow_partial_deck"
-      }
-    }
-
     object Vocabulary {
       object Overview {
         val URL = s"$WWW_BASE_URL/vocabulary/overview"
