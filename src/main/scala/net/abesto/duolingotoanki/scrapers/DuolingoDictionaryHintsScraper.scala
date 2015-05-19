@@ -20,7 +20,7 @@ class DuolingoDictionaryHintsScraper() {
 
   protected def doFetch(fromLang: String, toLang: String, words: Seq[String]): Either[String, Map[String, Seq[String]]] = {
     val quotedWords = words.map('"' + _ + '"')
-    val thisUrl = url(URL.format(fromLang, toLang))
+    val thisUrl = url(URL.format(toLang, fromLang))
       .addQueryParameter(Params.TOKENS, s"[${quotedWords.mkString(",")}]")
       .addCommonHeaders()
 
