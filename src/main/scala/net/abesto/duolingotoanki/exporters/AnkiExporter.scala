@@ -5,8 +5,6 @@ import java.io.{File, PrintWriter}
 import net.abesto.duolingotoanki.{Log, Word}
 
 class AnkiExporter(f: File) {
-  def quote(sep: String)(s: Seq[String]) = '"' + s.mkString(sep) + '"'
-
   def write(words: Seq[Word]): Either[String, Unit] = {
     try {
       val pw = new PrintWriter(f, "UTF-8")
@@ -31,4 +29,6 @@ class AnkiExporter(f: File) {
       case e: Throwable => Left(e.toString)
     }
   }
+
+  def quote(sep: String)(s: Seq[String]) = '"' + s.mkString(sep) + '"'
 }

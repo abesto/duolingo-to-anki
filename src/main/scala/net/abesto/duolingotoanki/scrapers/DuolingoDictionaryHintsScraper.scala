@@ -1,15 +1,16 @@
 package net.abesto.duolingotoanki.scrapers
 
 import com.ning.http.client.Response
-import dispatch._
 import dispatch.Defaults._
-import net.abesto.duolingotoanki.Log
+import dispatch._
 import net.abesto.duolingotoanki.Constants.Duolingo.Dictionary.Hints._
+import net.abesto.duolingotoanki.Log
 import org.json4s.native.JsonMethods._
 import org.json4s.{DefaultFormats, _}
 
 
 class DuolingoDictionaryHintsScraper() {
+
   import net.abesto.duolingotoanki.Utils._
 
   def fetch(vocabulary: Vocabulary): Either[String, Map[String, Seq[String]]] =

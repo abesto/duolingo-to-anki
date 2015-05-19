@@ -8,14 +8,15 @@ import org.json4s.native.JsonMethods._
 import org.json4s.{DefaultFormats, _}
 
 class DuolingoVocabularyScraper(authToken: String) {
+
   import net.abesto.duolingotoanki.Constants.Duolingo.Vocabulary.Overview._
   import net.abesto.duolingotoanki.Utils._
 
   def fetch(): Either[String, Vocabulary] =
     doFetch() match {
       case r@Right(v) =>
-          Log.log(s"Fetched ${v.vocab_overview.length} words from vocabulary overview. Native language: ${v.from_language}. Learned language: ${v.learning_language}.")
-          r
+        Log.log(s"Fetched ${v.vocab_overview.length} words from vocabulary overview. Native language: ${v.from_language}. Learned language: ${v.learning_language}.")
+        r
       case l@Left(msg) =>
         Log.log(msg)
         l
@@ -40,12 +41,12 @@ class DuolingoVocabularyScraper(authToken: String) {
 }
 
 case class Vocabulary
-( from_language: String
-, learning_language: String
-, vocab_overview: Seq[VocabularyItem])
+(from_language: String
+ , learning_language: String
+ , vocab_overview: Seq[VocabularyItem])
 
 case class VocabularyItem
-( word_string: String
-, pos: String
-, skill: String
-, skill_url_title: String)
+(word_string: String
+ , pos: String
+ , skill: String
+ , skill_url_title: String)
