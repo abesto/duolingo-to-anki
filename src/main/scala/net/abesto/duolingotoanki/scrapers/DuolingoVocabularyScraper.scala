@@ -12,9 +12,20 @@ class DuolingoVocabularyScraper(authToken: String) {
   import net.abesto.duolingotoanki.Constants.Duolingo.Vocabulary.Overview._
   import net.abesto.duolingotoanki.Utils._
 
+  def postProcess(vocabulary: Vocabulary): Unit = {
+    if (vocabulary.learning_language == "de") {
+      vocabulary.vocab_overview.foreach { vi =>
+        if (vi.pos == "Noun") {
+          vi.word_string = vi.word_string.capitalize
+        }
+      }
+    }
+  }
+
   def fetch(): Either[String, Vocabulary] =
     doFetch() match {
       case r@Right(v) =>
+        postProcess(v)
         Log.log(s"Fetched ${v.vocab_overview.length} words from vocabulary overview. Native language: ${v.from_language}. Learned language: ${v.learning_language}.")
         r
       case l@Left(msg) =>
@@ -46,7 +57,7 @@ case class Vocabulary
  , vocab_overview: Seq[VocabularyItem])
 
 case class VocabularyItem
-(word_string: String
+(var word_string: String
  , pos: String
  , skill: String
  , skill_url_title: String)
