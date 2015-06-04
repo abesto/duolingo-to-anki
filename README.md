@@ -11,7 +11,7 @@ You can download the latest version from the [Releases](https://github.com/abest
 
 Tested with
  * Anki version 2.0.31
- * Duolingo on 2015-01-18
+ * Duolingo on 2015-06-04
  * OSX Yosemite and Windows 7 (not that the platform should matter)
 
 ## Usage
