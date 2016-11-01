@@ -4,14 +4,16 @@ import java.io.{File, PrintWriter}
 
 import net.abesto.duolingotoanki.{Log, Word}
 
-class AnkiExporter(f: File) {
+class AnkiExporter(f: File, debug: Boolean) {
   def write(words: Seq[Word]): Either[String, Unit] = {
     try {
       val pw = new PrintWriter(f, "UTF-8")
       try {
-        pw.write("#### Start of scraping log\n")
-        for (logline <- Log.lines) pw.write("# " + logline + "\n")
-        pw.write("#### End of scraping log, data coming up\n")
+        if (debug) {
+          pw.write("#### Start of scraping log\n")
+          for (logline <- Log.lines) pw.write("# " + logline + "\n")
+          pw.write("#### End of scraping log, data coming up\n")
+        }
         for (word <- words) {
           pw.write(
             Seq(word.learned, word.native)

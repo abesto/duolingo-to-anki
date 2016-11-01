@@ -36,6 +36,8 @@ object Main extends SimpleSwingApplication {
         val username = new TextField()
         val passwordLabel = new Label()
         val password = new PasswordField()
+        val debugCheckbox = new CheckBox("Debug mode")
+        val goButton = new Button()
 
         Log.register(new Log.Handler {
           override def handleClear() {}
@@ -79,7 +81,7 @@ object Main extends SimpleSwingApplication {
             return write(ws)
           }
 
-          val result = new AnkiExporter(file).write(ws)
+          val result = new AnkiExporter(file, debugCheckbox.selected).write(ws)
           result.right.map(_ => Log.log("Successfully wrote " + file.getAbsolutePath))
           result.left.map(s => {
             error(s"Failed to write $file: $s")
@@ -97,6 +99,7 @@ object Main extends SimpleSwingApplication {
             }
           }
         }
+        goButton.action = goAction
 
         log.editable = false
         log.font = new Font(Font.MONOSPACED, 0, 12)
@@ -134,12 +137,13 @@ object Main extends SimpleSwingApplication {
         c.gridx = 1
         layout(password) = c
 
-        val goButton = new Button()
-        goButton.action = goAction
         c.gridy = 3
         c.gridx = 0
-        c.gridwidth = 2
+        layout(debugCheckbox) = c
+
+        c.gridx = 1
         layout(goButton) = c
+
       }
     }
 
