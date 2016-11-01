@@ -1,8 +1,9 @@
 package net.abesto.duolingotoanki
+import java.util.ResourceBundle
 
 object Constants {
   val APP_NAME = "Duolingo-to-Anki"
-  val APP_VERSION = "0.2.5"
+  val APP_VERSION = ResourceBundle.getBundle("version").getString("version")
   val APP_HOMEPAGE = "https://github.com/abesto/duolingo-to-anki"
 
   val USER_AGENT = s"$APP_NAME $APP_VERSION ($APP_HOMEPAGE)"
