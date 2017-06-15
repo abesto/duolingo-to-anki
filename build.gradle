@@ -5,19 +5,20 @@ buildscript {
 		jcenter()
 	}
 	dependencies {
-		classpath "com.github.jengelman.gradle.plugins:shadow:1.2.1"
+		classpath "com.github.jengelman.gradle.plugins:shadow:2.0.0"
 	}
 }
 
 plugins {
 	id 'java'
-	id 'scala'
 	id 'idea'
 	id 'eclipse'
 	id 'application'
-	id 'com.github.johnrengelman.shadow' version '1.2.1'
 	id 'org.ensime.gradle' version '0.2.8'
 }
+
+apply plugin: 'scala'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 ext {
 	scalaMajorVersion = "2"
