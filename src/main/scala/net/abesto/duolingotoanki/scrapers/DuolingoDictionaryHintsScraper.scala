@@ -1,10 +1,10 @@
 package net.abesto.duolingotoanki.scrapers
 
-import com.ning.http.client.Response
 import dispatch.Defaults._
 import dispatch._
 import net.abesto.duolingotoanki.Constants.Duolingo.Dictionary.Hints._
 import net.abesto.duolingotoanki.Log
+import org.asynchttpclient.Response
 import org.json4s.native.JsonMethods._
 import org.json4s.{DefaultFormats, _}
 
@@ -19,14 +19,14 @@ class DuolingoDictionaryHintsScraper() {
       .reduce((a, b) => a.right.map(_ ++ b.right.getOrElse(Map())))
 
   protected def doFetch(fromLang: String, toLang: String, words: Seq[String]): Either[String, Map[String, Seq[String]]] = {
-    val quotedWords = words.map('"' + _ + '"')
+    val quotedWords = words.map('"' + _ + "\"")
     val thisUrl = url(URL.format(toLang, fromLang))
       .addQueryParameter(Params.TOKENS, s"[${quotedWords.mkString(",")}]")
       .addCommonHeaders()
 
-    implicit val format = DefaultFormats
+    implicit val format: Formats = DefaultFormats
     Log.log(s"Fetching word hints for ${words.length} words (${words.mkString(", ")}) from ${thisUrl.url}")
-    Http(thisUrl).either.apply() match {
+    Http.default(thisUrl).either.apply() match {
       case Right(r: Response) =>
         parse(r.getResponseBody)
           .extractOpt[Map[String, Seq[String]]]

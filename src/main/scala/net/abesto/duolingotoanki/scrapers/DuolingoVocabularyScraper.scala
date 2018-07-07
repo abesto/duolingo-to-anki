@@ -1,9 +1,10 @@
 package net.abesto.duolingotoanki.scrapers
 
-import com.ning.http.client.{Cookie, Response}
 import dispatch.Defaults._
 import dispatch._
 import net.abesto.duolingotoanki.{Constants, Log}
+import org.asynchttpclient.Response
+import org.asynchttpclient.cookie.Cookie
 import org.json4s.native.JsonMethods._
 import org.json4s.{DefaultFormats, _}
 
@@ -35,12 +36,20 @@ class DuolingoVocabularyScraper(authToken: String) {
 
   def doFetch(): Either[String, Vocabulary] = {
     val thisUrl = url(URL)
-      .addCookie(new Cookie(Constants.Duolingo.WWW_DOMAIN, Constants.Duolingo.Login.AUTH_HEADER, authToken, null, -1, true))
-      .addCommonHeaders()
+      .addCookie(new Cookie(
+        Constants.Duolingo.Login.AUTH_HEADER,
+        authToken,
+        false,
+        Constants.Duolingo.WWW_DOMAIN,
+        null,
+        -1,
+        true,
+        false)
+      ).addCommonHeaders()
 
     implicit val format = DefaultFormats
     Log.log(s"Fetching vocabulary overview from ${thisUrl.url}")
-    Http(thisUrl).either.apply() match {
+    Http.default(thisUrl).either.apply() match {
       case Right(r: Response) =>
         parse(r.getResponseBody)
           .extractOpt[Vocabulary]

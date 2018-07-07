@@ -1,9 +1,10 @@
 package net.abesto.duolingotoanki.scrapers
 
-import com.ning.http.client.{Cookie, Response}
 import dispatch.Defaults._
 import dispatch._
 import net.abesto.duolingotoanki.Log
+import org.asynchttpclient.Response
+import org.asynchttpclient.cookie.Cookie
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
@@ -14,32 +15,34 @@ object DuolingoLogin {
   import net.abesto.duolingotoanki.Constants.Duolingo._
   import net.abesto.duolingotoanki.Utils._
 
-  val loginUrl = url(Login.Request.URL).POST
+  val loginUrl: Req = url(Login.Request.URL).POST
 
   def login(username: String, password: String): Either[String, String] = {
-    Log.log("Trying to log in to Duolingo as " + username)
-    Http(loginUrl.addParameter(Login.Request.Params.USERNAME, username)
+    Log.log(s"Trying to log in to Duolingo as $username")
+    Http.default(loginUrl.addParameter(Login.Request.Params.USERNAME, username)
       .addParameter(Login.Request.Params.PASSWORD, password)
       .addCommonHeaders()).either.apply() match {
       case Right(res: Response) => parse(res.getResponseBody) match {
         case JObject(List(
-        JField(Login.Response.Failure.FAILURE, JString(failure)),
+        JField(Login.Response.Failure.FAILURE, JString(_)),
         JField(Login.Response.Failure.MESSAGE, JString(message)))
-        ) => Log.log("Login failed. Duolingo says: " + message)
+        ) => Log.log(s"Login failed. Duolingo says: $message")
           Left(message)
         case JObject(List(
         JField(Login.Response.Success.RESPONSE, JString(Login.Response.Success.OK)),
-        JField(Login.Response.Success.USERNAME, JString(username2)),
+        JField(Login.Response.Success.USERNAME, JString(_)),
         JField(Login.Response.Success.USER_ID, JString(userId))
         )) =>
           Log.log(s"Logged in to Duolingo as $username user_id=$userId")
-          Right(res.getCookies.asScala.filter({ c: Cookie => c.getName == Login.AUTH_HEADER }).head.getValue)
+          res.getCookies.asScala.find({ c: Cookie => c.getName == Login.AUTH_HEADER })
+            .map(_.getValue)
+            .toRight(s"Failed to find expected cookie ${Login.AUTH_HEADER} in response. This is probably a bug in duolingo-to-anki.")
         case other =>
-          Log.log("Unexpected response for login: " + other.toString)
+          Log.log(s"Unexpected response for login: ${other.toString}")
           Left("Unexpected response for login. This is a probably a bug in duolingo-to-anki.")
       }
       case Left(ex: Throwable) =>
-        Log.log("Login error: " + ex.getMessage)
+        Log.log(s"Login error: ${ex.getMessage}")
         Left(ex.getMessage)
     }
   }
