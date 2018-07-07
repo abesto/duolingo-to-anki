@@ -16,7 +16,7 @@ object Constants {
 
     object Login {
 
-      val AUTH_HEADER = "auth_tkt"
+      val AUTH_HEADER = "jwt_token"
 
       object Request {
         val URL = s"$WWW_BASE_URL/login"
